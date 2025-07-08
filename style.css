@@ -1,0 +1,199 @@
+        :root {
+            --primary-color: #8A2BE2;
+            --secondary-color: #9932CC;
+            --light-purple: #E6E6FA;
+            --text-dark: #4B0082;
+            --danger-color: #FF3860;
+            --warning-color: #FFDD57;
+            --success-color: #48C774;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f4ff;
+            padding: 20px;
+        }
+
+        .data-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
+            padding: 30px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h2 {
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .search-create-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 10px 15px;
+            border: 2px solid var(--light-purple);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 250px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+
+        .btn-create {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(138, 43, 226, 0.3);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-purple);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #faf5ff;
+        }
+
+        tr:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .btn-edit {
+            background-color: var(--warning-color);
+            color: var(--text-dark);
+        }
+
+        .btn-delete {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-edit:hover {
+            background-color: #ffd83d;
+        }
+
+        .btn-delete:hover {
+            background-color: #ff1f4b;
+        }
+
+        /* Animation */
+        @keyframes fadeInRow {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        tr {
+            animation: fadeInRow 0.5s ease forwards;
+        }
+
+        tr:nth-child(1) { animation-delay: 0.1s; }
+        tr:nth-child(2) { animation-delay: 0.2s; }
+        tr:nth-child(3) { animation-delay: 0.3s; }
+        tr:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-create-container {
+                width: 100%;
+                flex-direction: column;
+            }
+            
+            .search-box {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            .btn-create {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+                font-size: 14px;
+            }
+            
+            .btn {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
+        }
