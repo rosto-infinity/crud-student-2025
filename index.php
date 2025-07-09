@@ -57,51 +57,49 @@ $students =$query->fetchAll(PDO::FETCH_ASSOC);
     </form> 
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            
-          <?php foreach($students as $student) : ?>
-                <tr> 
-                    <td> <?= $student['id_student'] ;?> </td>
-                    <td><?= $student['nom_student'] ;?> </td>                  
-                    <td> <?=  $student['email_student'] ;?></td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="">
-                                <button class="btn btn-edit">
-                                    <svg width="14" height="14"
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                    </svg>
-                                    Éditer
-                                </button>
-                            </a>
-            <a 
-           href="delete.php?id_student=<?= $student['id_student'] ;?>"
-           onclick="return confirm('Etes-vous sûr de vouloir supprimer cet étudiant ?')">
-                                <button class="btn btn-delete">
-                                    <svg width="14" height="14">
-                                        <path d="M3 6h18"></path>
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                    </svg>
-                                    Supprimer
-                                </button>
-                            </a>
-
-                        </div>
-                    </td>
-                </tr>
-         <?php endforeach ?>
-            </tbody>
-        </table>
+       <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($students as $student) : ?>
+            <tr>
+                <td><?= htmlspecialchars($student['id_student']); ?></td>
+                <td><?= htmlspecialchars($student['nom_student']); ?></td>
+                <td><?= htmlspecialchars($student['email_student']); ?></td>
+                <td>
+                    <div class="action-buttons">
+  <a href="update.php?id_student=<?= $student['id_student']; ?>">
+    
+                            <button class="btn btn-edit">
+                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                                Éditer
+                            </button>
+                        </a>
+                        <a href="delete.php?id_student=<?= $student['id_student']; ?>" 
+                           onclick="return confirm('Etes-vous sûr de vouloir supprimer cet étudiant ?')">
+                            <button class="btn btn-delete">
+                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                                Supprimer
+                            </button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
     </div>
 </body>
 
