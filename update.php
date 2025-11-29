@@ -1,68 +1,67 @@
 <?php
 include "database.php";
 
-  $errors =[];
+$errors = [];
 
-  $id_student = $_GET['id_student'] ?? '';
-$query="SELECT * FROM students WHERE id_student=?";
+$id_student = $_GET['id_student'] ?? '';
+$query = "SELECT * FROM students WHERE id_student=?";
 $req = $pdoconnect->prepare($query);
 $req->execute([$id_student]);
 $student = $req->fetch();
 
-if(!$student){
+if (!$student) {
     die("Edudiant introuvable");
 }
 
 // Vérification de la soumission du formulaire
- if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])){
-// Récupération et nettoyage des données
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
+    // Récupération et nettoyage des données
     $nom_student = trim($_POST['nom_student'] ?? '');
     $email_student = trim($_POST['email_student'] ?? '');
-    $password_student = trim($_POST['password_student'] ?? ''); 
-    $password_confirm = trim($_POST['password_confirm'] ?? ''); 
+    $password_student = trim($_POST['password_student'] ?? '');
+    $password_confirm = trim($_POST['password_confirm'] ?? '');
 
     //Validation du nom
-    if(empty($nom_student)){
+    if (empty($nom_student)) {
         $errors['nom_student'] = 'Le nom est obligatoire';
-    }elseif (strlen($nom_student) < 3) {
-        $errors['nom_student'] ="Le nom doit contenir au moins 3 caractères";
-    }elseif(preg_match('/^\d/', $nom_student)){
-        $errors['nom_student'] ="Le nom ne doit pas commecer par un chiffre";
-    }else{
-        $query ="SELECT *FROM students WHERE nom_student=? AND id_student !=?";
-        $req =$pdoconnect->prepare($query);
+    } elseif (strlen($nom_student) < 3) {
+        $errors['nom_student'] = "Le nom doit contenir au moins 3 caractères";
+    } elseif (preg_match('/^\d/', $nom_student)) {
+        $errors['nom_student'] = "Le nom ne doit pas commecer par un chiffre";
+    } else {
+        $query = "SELECT *FROM students WHERE nom_student=? AND id_student !=?";
+        $req = $pdoconnect->prepare($query);
         $req->execute([$nom_student, $id_student]);
-        $student=$req->fetch();
-        if($student){
-             $errors['nom_student'] = 'Ce nom existe deja';
+        $student = $req->fetch();
+        if ($student) {
+            $errors['nom_student'] = 'Ce nom existe deja';
         }
-       
     }
 
     //Validation email
-    if(empty($email_student)){
+    if (empty($email_student)) {
         $errors['email_student'] = 'Le email est obligatoire';
-  }elseif(!filter_var($email_student, FILTER_VALIDATE_EMAIL)){
-      $errors['email_student'] = "L'email n'est pas valide";
-    }else{
-        $query ="SELECT *FROM students WHERE email_student=? AND id_student !=?";
-        $req =$pdoconnect->prepare($query);
+    } elseif (!filter_var($email_student, FILTER_VALIDATE_EMAIL)) {
+        $errors['email_student'] = "L'email n'est pas valide";
+    } else {
+        $query = "SELECT *FROM students WHERE email_student=? AND id_student !=?";
+        $req = $pdoconnect->prepare($query);
         $req->execute([$email_student, $id_student]);
-        $student=$req->fetch();
-        if($student){
-             $errors['email_student'] = 'Ce email existe deja';
+        $student = $req->fetch();
+        if ($student) {
+            $errors['email_student'] = 'Ce email existe deja';
         }
     }
 
-     // Validation du mot de passe
-   if (!empty($password_student) && strlen($password_student) < 8) {
+    // Validation du mot de passe
+    if (!empty($password_student) && strlen($password_student) < 8) {
         $errors['password_student'] = "Le mot de passe doit contenir au moins 8 caractères";
-    }elseif($password_student !==  $password_confirm){
-         $errors['password_student'] = "Le mot de passe ne correspond pas ";
+    } elseif ($password_student !==  $password_confirm) {
+        $errors['password_student'] = "Le mot de passe ne correspond pas ";
     }
 
- // Si aucune erreur, mise à jour in database
-     if (empty($errors)) {
+    // Si aucune erreur, mise à jour in database
+    if (empty($errors)) {
         $sql = "UPDATE students SET  nom_student = ?, email_student = ?" .  (!empty($password_student) ? ", password_student = ?" : "") .  " WHERE id_student = ?";
 
         $stmt = $pdoconnect->prepare($sql);
@@ -75,8 +74,7 @@ if(!$student){
         header("Location: index.php");
         exit();
     }
-
- }
+}
 
 ?>
 
@@ -85,7 +83,6 @@ if(!$student){
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -179,8 +176,8 @@ if(!$student){
         }
     </style>
 </head>
-
 <body>
+
     <div class="form-container">
 
         <a href="index.php">
@@ -194,9 +191,9 @@ if(!$student){
         <form action='' method="POST">
             <div class="form-group">
                 <label for="nom">Nom</label>
-                <input type="text" id="nom" name="nom_student" 
-                value="<?= isset($nom_student) ? $nom_student : $student['nom_student'] ?>"
-                placeholder="Entrez le nom">
+                <input type="text" id="nom" name="nom_student"
+                    value="<?= isset($nom_student) ? $nom_student : $student['nom_student'] ?>"
+                    placeholder="Entrez le nom">
                 <?php if (isset($errors['nom_student'])): ?>
                     <p style='color:red;'><?= $errors['nom_student'] ?></p>
                 <?php endif; ?>
@@ -204,11 +201,11 @@ if(!$student){
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" id="email" 
-                value="<?= isset($email_student) ? $email_student : $student['email_student']  ?>"
-                name="email_student" placeholder="Entrez l'email">
+                <input type="text" id="email"
+                    value="<?= isset($email_student) ? $email_student : $student['email_student']  ?>"
+                    name="email_student" placeholder="Entrez l'email">
 
-                 <?php if (isset($errors['email_student'])): ?>
+                <?php if (isset($errors['email_student'])): ?>
                     <p style='color:red;'><?= $errors['email_student'] ?></p>
                 <?php endif; ?>
 
@@ -216,8 +213,8 @@ if(!$student){
             <div class="form-group">
                 <label for="password">password</label>
                 <input type="password" id="password" name="password_student" placeholder="Entrez l'password">
-            
-                 <?php if (isset($errors['password_student'])): ?>
+
+                <?php if (isset($errors['password_student'])): ?>
                     <p style='color:red;'><?= $errors['password_student'] ?></p>
                 <?php endif; ?>
             </div>
@@ -231,6 +228,7 @@ if(!$student){
         </form>
 
     </div>
+
 </body>
 
 </html>
